@@ -1,0 +1,21 @@
+Faça uma API usando express, para controle de bloqueio de CPF.
+
+POST /deny-list/cpf
+    Bloqueia o CPF
+DELETE /deny-list/cpf
+    Libera o CPF da lista
+GET /deny-list/cpf                    -> /12312312376
+    Checa se o CPF esta bloqueado
+GET /status
+    Retorna o status do servidor
+        - A quanto tempo o servidor esta rodando;
+        - A quantidade de consultas realizadas desde quando ele esta rodando;
+        - A quantidade de CPF's na deny list;
+
+OBSERVAÇÔES:
+
+Os retornos desta API precisam ser no formato JSON.
+Deve-se usar MongoDB para o armazenamento da deny list.
+Deve-se validar se o CPF é válido em cada operação que ele for informado (11 digitos e apenas números)
+Não é necessário suportar máscara (123.132.321-62), porém é um plus
+Faça um novo projeto para este exercício 

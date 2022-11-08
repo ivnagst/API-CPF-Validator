@@ -1,0 +1,11 @@
+{
+  "name": "api-cpf-validator",
+  "version": "1.0.0",
+  "description": "Will be similar to the first test",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "",
+  "license": "ISC"
+}

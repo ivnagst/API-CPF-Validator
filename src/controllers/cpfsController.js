@@ -4,15 +4,13 @@ import isValid from "../controllers/cpfValidator.js"
 let quantidade_de_requests = 0;
 let quantidade_de_documentos_na_collection = 0;
 
-class CpfsController {
+class CpfController {
 
     static blockCPF = (req, res) => {
         const cpfToLock = new cpfModel(req.params);
-
         quantidade_de_requests++
 
-        if (isValid(cpfToLock.cpf) !== false ) {
-
+        if (isValid(cpfToLock.cpf) !== false) {
             cpfToLock.save((err, docs) => {
                 if (!err) {
                     res
@@ -24,7 +22,6 @@ class CpfsController {
                         .status(500)
                         .json({ message: `${err.message} - Falha ao bloquear o CPF!`, cpfToLock })
                     return;
-
                 }
             })
         } else {
@@ -73,7 +70,7 @@ class CpfsController {
                         .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado`, docs });
                     return;
                 }
-                else if (err || !docs) {
+                if (err || !docs) {
                     res
                         .status(200)
                         .send({ message: "O CPF da sua consulta, NÃO encontra-se bloqueado: " })
@@ -88,8 +85,9 @@ class CpfsController {
 
     static serverStatus = (req, res) => {
         quantidade_de_requests++;
-        const tempo_online = process.uptime()
-            ;
+        const tempo_online = process.uptime();
+
+        cpfModel.find({})
 
         cpfModel.count({}, function (err, count) {
             quantidade_de_documentos_na_collection = count
@@ -103,7 +101,8 @@ class CpfsController {
                     quantidade_de_documentos_na_collection
 
                 })
+
     }
 }
 
-export default CpfsController
+export default CpfController

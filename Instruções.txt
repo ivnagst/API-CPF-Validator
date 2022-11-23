@@ -19,3 +19,7 @@ Deve-se usar MongoDB para o armazenamento da deny list. - ok
 Deve-se validar se o CPF é válido em cada operação que ele for informado (11 digitos e apenas números) - Ok
 Não é necessário suportar máscara (123.132.321-62), porém é um plus - Not ok
 Faça um novo projeto para este exercício - ok 
+
+-
+
+Corrigir os bugs 

@@ -3,9 +3,18 @@
   "version": "1.0.0",
   "description": "Will be similar to the first test",
   "main": "index.js",
+  "type": "module",
   "scripts": {
+    "dev": "nodemon server.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "dependencies": {
+    "express": "^4.18.2",
+    "express-healthcheck": "^0.1.0",
+    "mongoose": "^6.7.2",
+    "nodemon": "^2.0.20",
+    "server-health": "^5.1.1"
+  }
 }

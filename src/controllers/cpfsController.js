@@ -9,10 +9,10 @@ class CpfController {
         quantidade_de_requests++
 
         if (isValid(cpfToLock.cpf) === true) {
-            
+
             const verifier = await cpfModel
-            .find({ cpfs: { cpf: cpfToLock } })
-            .estimatedDocumentCount();
+                .find({ cpfs: { cpf: cpfToLock } })
+                .estimatedDocumentCount();
 
             if (verifier < 1) {
                 cpfToLock.save((err) => {
@@ -20,12 +20,6 @@ class CpfController {
                         res
                             .status(201)
                             .send({ message: `O CPF ${(cpfToLock.cpf)} foi bloqueado com sucesso!` })
-                        return;
-                    }
-                    if (err) {
-                        res
-                            .status(500)
-                            .send({ message: `${err.message} - Falha ao bloquear o CPF!`, cpfToLock })
                         return;
                     }
                 })
@@ -52,16 +46,10 @@ class CpfController {
                         .send({ message: `O CPF informado (${cpfModel(req.params).cpf}) não encontra-se bloqueado!` });
                     return;
                 }
-                if (!err || docs) {
+                if (!err && docs) {
                     res
                         .status(201)
                         .send({ message: `O CPF informado (${cpfModel(req.params).cpf}) foi removido da lista` })
-                    return;
-                }
-                if (err) {
-                    res
-                        .status(500)
-                        .send({ message: `${err.message} - Falha ao desbloquear o CPF!` });
                     return;
                 }
             })
@@ -80,10 +68,10 @@ class CpfController {
                 if (!err && docs) {
                     res
                         .status(200)
-                        .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado`, docs });
+                        .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado`});
                     return;
                 }
-                if (err && !docs) {
+                if (err || !docs) {
                     res
                         .status(200)
                         .send({ message: "O CPF da sua consulta, NÃO encontra-se bloqueado!" })

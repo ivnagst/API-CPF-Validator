@@ -24,12 +24,12 @@ class CpfController {
                     }
                 })
             }
-            if (verifier > 0) {
+            else {
                 res
                     .send({ message: `O CPF informado (${(cpfToLock.cpf)}) já encontra-se na base de dados!` })
             }
         }
-        if (isValid(cpfToLock.cpf) === false) {
+        else {
             res
                 .send({ message: `O CPF informado (${(cpfToLock.cpf)}) não é valido!` })
         }
@@ -54,7 +54,7 @@ class CpfController {
                 }
             })
         }
-        if (isValid(cpfToUnlock.cpf) === false) {
+        else {
             res
                 .send({ message: `O CPF informado (${(cpfToUnlock.cpf)}) não é valido!` })
         }
@@ -68,7 +68,7 @@ class CpfController {
                 if (!err && docs) {
                     res
                         .status(200)
-                        .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado`});
+                        .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado` });
                     return;
                 }
                 if (err || !docs) {
@@ -79,7 +79,7 @@ class CpfController {
                 }
             })
         }
-        if (isValid(cpfToFind.cpf) === false) {
+        else {
             res
                 .send({ message: `O CPF informado (${(cpfToFind.cpf)}) não é valido!` })
         }

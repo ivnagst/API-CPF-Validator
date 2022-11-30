@@ -5,39 +5,46 @@ let quantidade_de_requests = 0;
 
 class CpfController {
     static blockCPF = async (req, res) => {
-        quantidade_de_requests++
         const cpfToLock = new cpfModel(req.params);
-        const verifier = await cpfModel.find({ cpfs: { cpf: cpfToLock } }).estimatedDocumentCount();
+        quantidade_de_requests++
 
-        if (isValid(cpfToLock.cpf) !== false && verifier < 1) {
-            cpfToLock.save((err) => {
-                if (!err) {
-                    res
-                        .status(201)
-                        .send({ message: `O CPF ${(cpfToLock.cpf)} foi bloqueado com sucesso!` })
-                    return;
-                }
-                if (err) {
-                    res
-                        .status(500)
-                        .send({ message: `${err.message} - Falha ao bloquear o CPF!`, cpfToLock })
-                }
-            })
+        if (isValid(cpfToLock.cpf) === true) {
+            
+            const verifier = await cpfModel
+            .find({ cpfs: { cpf: cpfToLock } })
+            .estimatedDocumentCount();
+
+            if (verifier < 1) {
+                cpfToLock.save((err) => {
+                    if (!err) {
+                        res
+                            .status(201)
+                            .send({ message: `O CPF ${(cpfToLock.cpf)} foi bloqueado com sucesso!` })
+                        return;
+                    }
+                    if (err) {
+                        res
+                            .status(500)
+                            .send({ message: `${err.message} - Falha ao bloquear o CPF!`, cpfToLock })
+                        return;
+                    }
+                })
+            }
+            if (verifier > 0) {
+                res
+                    .send({ message: `O CPF informado (${(cpfToLock.cpf)}) já encontra-se na base de dados!` })
+            }
         }
-        if (isValid(cpfToLock.cpf) !== true) {
+        if (isValid(cpfToLock.cpf) === false) {
             res
                 .send({ message: `O CPF informado (${(cpfToLock.cpf)}) não é valido!` })
-        }
-        if (verifier > 0) {
-            res
-                .send({ message: `O CPF informado (${(cpfToLock.cpf)}) já encontra-se na base de dados!` })
         }
     }
     static unlockCPF = (req, res) => {
         quantidade_de_requests++
         const cpfToUnlock = cpfModel(req.params);
 
-        if (isValid(cpfToUnlock.cpf) !== false) {
+        if (isValid(cpfToUnlock.cpf) === true) {
             cpfModel.findOneAndDelete({ cpfs: { cpf: cpfToUnlock } }, function (err, docs) {
                 if (!docs) {
                     res
@@ -48,17 +55,18 @@ class CpfController {
                 if (!err || docs) {
                     res
                         .status(201)
-                        .send({ message: `O CPF informado (${cpfModel(req.params).cpf}) foi removido da lista`})
-                        .end();
+                        .send({ message: `O CPF informado (${cpfModel(req.params).cpf}) foi removido da lista` })
+                    return;
                 }
-                else {
+                if (err) {
                     res
                         .status(500)
                         .send({ message: `${err.message} - Falha ao desbloquear o CPF!` });
                     return;
                 }
             })
-        } if (isValid(cpfToUnlock.cpf) !== true) {
+        }
+        if (isValid(cpfToUnlock.cpf) === false) {
             res
                 .send({ message: `O CPF informado (${(cpfToUnlock.cpf)}) não é valido!` })
         }
@@ -67,7 +75,7 @@ class CpfController {
         quantidade_de_requests++
         const cpfToFind = cpfModel(req.params);
 
-        if (isValid(cpfToFind.cpf) !== false) {
+        if (isValid(cpfToFind.cpf) === true) {
             cpfModel.findOne({ cpfs: { cpf: cpfToFind } }, function (err, docs) {
                 if (!err && docs) {
                     res
@@ -75,14 +83,15 @@ class CpfController {
                         .send({ message: `O CPF da sua consulta (${cpfModel(req.params).cpf}), encontra-se bloqueado`, docs });
                     return;
                 }
-                if (err || !docs) {
+                if (err && !docs) {
                     res
                         .status(200)
                         .send({ message: "O CPF da sua consulta, NÃO encontra-se bloqueado!" })
                     return;
                 }
             })
-        } if (isValid(cpfToFind.cpf) !== true) {
+        }
+        if (isValid(cpfToFind.cpf) === false) {
             res
                 .send({ message: `O CPF informado (${(cpfToFind.cpf)}) não é valido!` })
         }

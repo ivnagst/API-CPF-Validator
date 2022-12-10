@@ -23,3 +23,16 @@ Faça um novo projeto para este exercício - ok
 -
 
 Corrigir os bugs 
+
+
+----
+
+Não use o any, de forma alguma, nem desabilite 
+
+Não utilizar o 'as' pois ignora propriedades obrigatorias, se utilizar, utilize da forma correta. Apenas qnd tiver certeza se ta certo. 
+
+Quando a lib estiver com o DT, instale a lib do fim da mensagem
+
+1 renomear tudo pra TS
+2 tipar de dentro pra fora, das funções ate chegar no express
+

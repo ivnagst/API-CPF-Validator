@@ -10,4 +10,3 @@ router
     .get("/status", CpfController.serverStatus)
 
 export default router;
-

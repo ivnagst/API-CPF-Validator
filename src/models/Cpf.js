@@ -1,6 +1,5 @@
 // import { Promise } from "bluebird";
 import mongoose from "mongoose";
-// Promise.promisifyAll(mongoose);
 
 const cpfSchema = new mongoose.Schema(
     {

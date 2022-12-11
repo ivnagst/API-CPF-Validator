@@ -1,0 +1,16 @@
+{
+	"compilerOptions": {
+		"baseUrl": ".",
+		"strict": true,
+		"module": "CommonJS",
+		"target": "ES6",
+		"experimentalDecorators": true,
+		"rootDir": "src",
+		"outDir": "./bin",
+		"skipLibCheck": true,
+		"useUnknownInCatchVariables": false,
+		"esModuleInterop": true
+	},
+	"include": ["src"],
+	"exclude": ["node_modules"]
+}

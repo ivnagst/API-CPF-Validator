@@ -3,12 +3,13 @@
 	"version": "1.0.0",
 	"description": "Will be similar to the first test",
 	"main": "bin/index.js",
-	"type": "module",
 	"scripts": {
 		"dev": "nodemon server.js",
 		"prepare": "npm run build",
 		"build": "tsc",
-		"start": "node ./bin/server.js"
+		"start:ts": "tsc -w",
+		"start:js": "nodemon build/index.js",
+		"start": "concurrently npm:start:*"
 	},
 	"author": "",
 	"license": "ISC",

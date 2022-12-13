@@ -1,6 +1,6 @@
 {
 	"compilerOptions": {
-		"baseUrl": ".",
+		"baseUrl": "./",
 		"strict": true,
 		"module": "CommonJS",
 		"target": "ES6",

@@ -1,7 +1,6 @@
 import { cpfModel } from './../models/Cpf';
-import isValid from './cpfValidator.js';
+import isValid from './cpfValidator';
 import { Request, Response } from 'express';
-import { Error } from 'mongoose';
 
 let quantidade_de_requests: number = 0;
 

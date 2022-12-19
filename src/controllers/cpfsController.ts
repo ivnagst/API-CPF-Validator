@@ -70,7 +70,6 @@ class CpfController {
 			const verifier: number = await cpfModel
 				.find({ cpf: cpfToFind.cpf })
 				.estimatedDocumentCount();
-
 			if (verifier > 0) {
 				res.status(200).send({ message: 'O CPF encontra-se bloqueado' });
 			} else {

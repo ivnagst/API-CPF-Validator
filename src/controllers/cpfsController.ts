@@ -9,29 +9,22 @@ class CpfController {
 		const cpfToLock = new cpfModel(req.body(cpfModel.schema.obj.cpf));
 		quantidade_de_requests++;
 
-		if (isValid(cpfToLock) === true) {
-			const verifier: number = await cpfModel
-				.find({ cpf: cpfToLock.cpf })
-				.estimatedDocumentCount();
-
-			if (verifier < 1) {
-				() => {
-					try {
-						cpfToLock.save();
-						res
-							.status(201)
-							.send({ message: 'O CPF foi bloqueado com sucesso!' });
-						return;
-					} catch (error) {
-						res.status(500).send({ message: error });
-						return;
-					}
-				};
-			} else {
-				res.send({ message: 'O CPF já encontra-se bloquado.' });
-			}
-		} else {
+		if (isValid(cpfToLock) === false) {
 			res.send({ message: 'O CPF informado não é valido.' });
+			return;
+		}
+		const verifier: number = await cpfModel
+			.find({ cpf: cpfToLock.cpf })
+			.estimatedDocumentCount();
+		if (verifier > 1) {
+			res.send({ message: 'O CPF já encontra-se bloqueado.' });
+			return;
+		}
+		try {
+			cpfToLock.save();
+			res.status(201).send({ message: 'O CPF foi bloqueado com sucesso!' });
+		} catch (error) {
+			res.status(500).send({ message: error });
 		}
 	};
 
@@ -39,26 +32,26 @@ class CpfController {
 		const cpfToUnlock = new cpfModel(req.body(cpfModel.schema.obj.cpf));
 		quantidade_de_requests++;
 
-		if (isValid(cpfToUnlock) === true) {
-			const verifier: number = await cpfModel
-				.find({ cpf: cpfToUnlock.cpf })
-				.estimatedDocumentCount();
-			if (verifier > 0) {
-				try {
-					cpfToUnlock.deleteOne();
-					res
-						.status(200)
-						.send({ message: 'O CPF informado foi removido da lista' });
-					return;
-				} catch (err) {
-					res.status(500).send({ message: err });
-				}
-			}
-			res.status(200).send({
-				message: 'O CPF informado não encontra-se bloqueado!',
-			});
-		} else {
+		if (isValid(cpfToUnlock) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido!' });
+			return;
+		}
+		const verifier: number = await cpfModel
+			.find({ cpf: cpfToUnlock.cpf })
+			.estimatedDocumentCount();
+		if (verifier < 1) {
+			res
+				.status(200)
+				.send({ message: 'O CPF informado não encontra-se bloqueado!' });
+			return;
+		}
+		try {
+			cpfToUnlock.deleteOne();
+			res
+				.status(200)
+				.send({ message: 'O CPF informado foi removido da lista' });
+		} catch (err) {
+			res.status(500).send({ message: err });
 		}
 	};
 
@@ -66,18 +59,19 @@ class CpfController {
 		const cpfToFind = new cpfModel(req.body(cpfModel.schema.obj.cpf));
 		quantidade_de_requests++;
 
-		if (isValid(cpfToFind) === true) {
-			const verifier: number = await cpfModel
-				.find({ cpf: cpfToFind.cpf })
-				.estimatedDocumentCount();
-			if (verifier > 0) {
-				res.status(200).send({ message: 'O CPF encontra-se bloqueado' });
-			} else {
-				res.status(200).send({ message: 'O CPF não encontra-se na lista.' });
-			}
-		} else {
+		if (isValid(cpfToFind) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido.' });
+			return;
 		}
+		const verifier: number = await cpfModel
+			.find({ cpf: cpfToFind.cpf })
+			.estimatedDocumentCount();
+		if (verifier < 1) {
+			res.status(200).send({ message: 'O CPF não encontra-se na lista.' });
+			return;
+		}
+		res.status(200).send({ message: 'O CPF encontra-se bloqueado' });
+		return;
 	};
 	static serverStatus = async (req: Request, res: Response) => {
 		quantidade_de_requests++;

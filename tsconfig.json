@@ -2,12 +2,7 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"strict": true,
-		"module": "CommonJS",
 		"target": "ES6",
-		"lib": ["es6", "dom"],
-		"types": ["reflect-metadata"],
-		"experimentalDecorators": true,
-		"emitDecoratorMetadata": true,
 		"rootDir": "src",
 		"outDir": "./bin",
 		"skipLibCheck": true,

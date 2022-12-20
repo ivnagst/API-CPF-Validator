@@ -11,14 +11,13 @@ class CpfController {
 
 		if (isValid(cpfToLock) === false) {
 			res.send({ message: 'O CPF informado não é valido.' });
-			return;
 		}
 		const verifier: number = await cpfModel
 			.find({ cpf: cpfToLock.cpf })
 			.estimatedDocumentCount();
-		if (verifier > 1) {
-			res.send({ message: 'O CPF já encontra-se bloqueado.' });
-			return;
+
+		if (verifier > 0) {
+			res.send({ message: 'O CPF já encontra-se bloquado.' });
 		}
 		try {
 			cpfToLock.save();
@@ -34,22 +33,21 @@ class CpfController {
 
 		if (isValid(cpfToUnlock) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido!' });
-			return;
 		}
 		const verifier: number = await cpfModel
 			.find({ cpf: cpfToUnlock.cpf })
 			.estimatedDocumentCount();
 		if (verifier < 1) {
-			res
-				.status(200)
-				.send({ message: 'O CPF informado não encontra-se bloqueado!' });
-			return;
+			res.status(200).send({
+				message: 'O CPF informado não encontra-se bloqueado!',
+			});
 		}
 		try {
 			cpfToUnlock.deleteOne();
 			res
 				.status(200)
 				.send({ message: 'O CPF informado foi removido da lista' });
+			return;
 		} catch (err) {
 			res.status(500).send({ message: err });
 		}
@@ -61,17 +59,14 @@ class CpfController {
 
 		if (isValid(cpfToFind) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido.' });
-			return;
 		}
 		const verifier: number = await cpfModel
 			.find({ cpf: cpfToFind.cpf })
 			.estimatedDocumentCount();
 		if (verifier < 1) {
 			res.status(200).send({ message: 'O CPF não encontra-se na lista.' });
-			return;
 		}
 		res.status(200).send({ message: 'O CPF encontra-se bloqueado' });
-		return;
 	};
 	static serverStatus = async (req: Request, res: Response) => {
 		quantidade_de_requests++;

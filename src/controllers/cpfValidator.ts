@@ -1,9 +1,9 @@
 import { cpfInterface } from "../models/Cpf";
-function isValid(cpf: number | cpfInterface) {
+function isValid(cpf: Number | cpfInterface) {
   let sum: number = 0;
   let rest: number;
 
-  let strCPF: string = String(cpf).replace(/[^\d]/g, "");
+  let strCPF: string = String(cpf).replace(/[^0-9]/g,'').slice(0,11); // Pqp, fiquei um tempo ate conseguir resolver isto!
 
   if (strCPF.length !== 11) return false;
 

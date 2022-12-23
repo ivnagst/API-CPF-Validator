@@ -1,17 +1,16 @@
-import mongoose, { model } from 'mongoose';
-
-export interface cpfInterface {
+import mongoose, { Schema, Document, model } from 'mongoose';
+export interface cpfInterface extends Document {
 	cpf: Number;
-	createdAt?: Date;
-	id?: string;
 }
 
-export const cpfSchema = new mongoose.Schema<cpfInterface>({
-	cpf: { type: Number, required: true },
-	createdAt: { type: Date, default: Date.now },
-	id: { type: String, required: false },
+const cpfSchema: Schema = new Schema({
+	id: { type: String },
+	cpf: {
+		type: Number,
+		required: true,
+	},
 });
 
-export const cpfModel = model('cpfDenyList', cpfSchema);
+let cpfModel = mongoose.model<cpfInterface>('cpfdenylists', cpfSchema);
 
 export default cpfModel;

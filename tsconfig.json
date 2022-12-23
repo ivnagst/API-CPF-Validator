@@ -2,15 +2,14 @@
 	"compilerOptions": {
 		"baseUrl": ".",
 		"strict": true,
-		"target": "ES6",
+		"target": "ES2022",
 		"rootDir": "src",
 		"outDir": "./bin",
 		"skipLibCheck": true,
 		"useUnknownInCatchVariables": false,
 		"esModuleInterop": true,
-		"paths": {
-			"src/*": ["src/*"]
-		}
+		"module": "NodeNext",
+		"sourceMap": true
 	},
 	"include": ["src"],
 	"exclude": ["node_modules"]

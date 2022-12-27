@@ -9,12 +9,10 @@
 		"build": "tsc",
 		"start": "ts-node -r ./src/index.ts",
 		"start:dev": "ts-node-dev './src/index.ts'",
-		"lint": "npm run lint:format && npm run lint:style",
+		"lint": "npm run lint:format && npm run lint:style && npm ci",
 		"lint:fix": "npm run lint:format:fix && npm run lint:style:fix",
 		"lint:format": "prettier --check 'src/**/*.ts'",
-		"lint:format:fix": "prettier --write 'src/**/*.ts'",
-		"lint:style": "eslint '**/*.ts'",
-		"lint:style:fix": "eslint '**/*.ts' --fix"
+		"lint:style": "eslint '**/*.ts'"
 	},
 	"author": "Ivan A. F. Aguiar",
 	"license": "ISC",

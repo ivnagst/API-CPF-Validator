@@ -2,7 +2,7 @@ import cpfModel from './../models/Cpf';
 import isValid from './cpfValidator';
 import { Request, Response } from 'express';
 
-let quantidade_de_requests: number = 0;
+let quantidade_de_requests = 0;
 
 class CpfController {
 	static blockCpf = async (req: Request, res: Response) => {

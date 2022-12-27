@@ -1,24 +1,24 @@
-import { cpfInterface } from "../models/Cpf";
-function isValid(cpf: number | cpfInterface) {
+import { cpfInterface } from '../models/Cpf';
+function isValid(cpf: Number | cpfInterface) {
   let sum: number = 0;
   let rest: number;
 
-  let strCPF: string = String(cpf).replace(/[^\d]/g, "");
+  let strCPF: string = String(cpf).replace(/[^0-9]/g,'').slice(0,11);
 
   if (strCPF.length !== 11) return false;
 
   if (
     [
-      "00000000000",
-      "11111111111",
-      "22222222222",
-      "33333333333",
-      "44444444444",
-      "55555555555",
-      "66666666666",
-      "77777777777",
-      "88888888888",
-      "99999999999",
+      '00000000000',
+      '11111111111',
+      '22222222222',
+      '33333333333',
+      '44444444444',
+      '55555555555',
+      '66666666666',
+      '77777777777',
+      '88888888888',
+      '99999999999',
     ].indexOf(strCPF) !== -1
   )
     return false;

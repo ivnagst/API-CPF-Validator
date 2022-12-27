@@ -1,6 +1,6 @@
-import mongoose from "mongoose";
+import mongoose from 'mongoose';
 
-mongoose.connect("mongodb+srv://root:123123123@cluster0.kssgfqn.mongodb.net/cpfValidator")
+mongoose.connect('mongodb+srv://root:123123123@cluster0.kssgfqn.mongodb.net/cpfValidator')
 
 const db = mongoose.connection;
 

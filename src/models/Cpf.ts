@@ -1,6 +1,6 @@
-import mongoose, { Schema, Document, model } from 'mongoose';
+import mongoose, { Schema, Document } from 'mongoose';
 export interface cpfInterface extends Document {
-	cpf: Number;
+	cpf: number;
 }
 
 const cpfSchema: Schema = new Schema({
@@ -11,6 +11,6 @@ const cpfSchema: Schema = new Schema({
 	},
 });
 
-let cpfModel = mongoose.model<cpfInterface>('cpfdenylists', cpfSchema);
+const cpfModel = mongoose.model<cpfInterface>('cpfdenylists', cpfSchema);
 
 export default cpfModel;

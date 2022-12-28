@@ -10,7 +10,7 @@
 		"start": "ts-node -r ./src/index.ts",
 		"start:dev": "ts-node-dev './src/index.ts'",
 		"lint": "npm run lint:format && npm run lint:style && npm ci",
-		"lint:fix": "npm run lint:format:fix && npm run lint:style:fix",
+		"lint:fix": "npm run lint:format && npm run lint:style",
 		"lint:format": "prettier --check 'src/**/*.ts'",
 		"lint:style": "eslint '**/*.ts'"
 	},

@@ -19,12 +19,12 @@ export class CpfServices {
 			.find({ cpf: cpfToLock.cpf })
 			.estimatedDocumentCount();
 
-		if ( verifier) {
-			res.send({ message: 'O CPF informado JÁ esta bloqueado.', verifier });
+		if (verifier) {
+			res.status(200).send({ message: 'O CPF informado JÁ esta bloqueado.' });
 			return;
 		} else {
 			cpfToLock.save(() => {
-				res.send({ message: 'O CPF foi bloqueado com sucesso.' });
+				res.status(200).send({ message: 'O CPF foi bloqueado com sucesso.' });
 				return;
 			});
 		}
@@ -41,14 +41,13 @@ export class CpfServices {
 			.find({ cpf: cpfToUnlock.cpf })
 			.estimatedDocumentCount();
 
-
 		if (!verifier) {
 			res.status(200).send({
 				message: 'O CPF informado NÃO esta bloqueado!',
 			});
 		} else {
 			cpfModel.findOneAndDelete({ cpfs: { cpf: cpfToUnlock } }, () => {
-				res.send({
+				res.status(200).send({
 					message: 'O CPF informado FOI removido da lista',
 				});
 				return;

@@ -4,7 +4,7 @@
 	"description": "Will be similar to the first test",
 	"main": "src/app.ts",
 	"scripts": {
-		"dev": "nodemon ./src/server.ts",
+		"dev": "nodemon ./src/app.ts",
 		"prepare": "husky install",
 		"build": "tsc",
 		"start": "ts-node -r ./src/app.ts",

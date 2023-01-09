@@ -15,22 +15,22 @@ export class CpfController {
 	constructor(@inject(TYPES.CpfServices) public cpfServices: CpfServices) {}
 
 	@httpPost('/:cpf')
-	public blockCpf(req: Request, res: Response) {
+	private blockCpf(req: Request, res: Response) {
 		return this.cpfServices.blockCpf(req, res);
 	}
 
 	@httpDelete('/:cpf')
-	public unblockCpf(req: Request, res: Response) {
+	private unblockCpf(req: Request, res: Response) {
 		return this.cpfServices.unblockCpf(req, res);
 	}
 
 	@httpGet('/:cpf')
-	public cpfIsBlocked(req: Request, res: Response) {
+	private cpfIsBlocked(req: Request, res: Response) {
 		return this.cpfServices.cpfIsBlocked(req, res);
 	}
 
 	@httpGet('/status')
-	public serverStatus(res: Response) {
+	private serverStatus(res: Response) {
 		return this.cpfServices.serverStatus(res);
 	}
 }

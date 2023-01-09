@@ -5,7 +5,6 @@ import { Container } from 'inversify';
 import TYPES from './ioc/ioc-types';
 import { CpfServices } from './services/cpfServices';
 import './controllers/cpfsController';
-import * as bodyParser from 'body-parser';
 
 const container = new Container({
 	autoBindInjectable: true,
@@ -16,18 +15,9 @@ container.bind<CpfServices>(TYPES.CpfServices).to(CpfServices);
 
 const server = new InversifyExpressServer(container);
 
-server.setConfig((app) => {
-	app.use(
-		bodyParser.urlencoded({
-			extended: true,
-		}),
-	);
-	// app.use(bodyParser.json());
-});
-
 const serverInstance = server.build();
-serverInstance.listen(3000, () => {
-	console.log('Server listening on port 3000');
+serverInstance.listen(3030, () => {
+	console.log('Server listening on port 3030');
 });
 
 db.on('error', console.log.bind(console, 'Erro de conexão'));

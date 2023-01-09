@@ -1,88 +1,36 @@
-import cpfModel from './../models/Cpf';
-import isValid from './cpfValidator';
+import 'reflect-metadata';
+import {
+	controller,
+	httpGet,
+	httpPost,
+	httpDelete,
+} from 'inversify-express-utils';
+import { inject } from 'inversify';
 import { Request, Response } from 'express';
+import TYPES from '../ioc/ioc-types';
+import { CpfServices } from '../services/cpfServices';
 
-let quantidade_de_requests = 0;
+@controller('/deny-list')
+export class CpfController {
+	constructor(@inject(TYPES.CpfServices) public cpfServices: CpfServices) {}
 
-class CpfController {
-	static blockCpf = async (req: Request, res: Response) => {
-		const cpfToLock = new cpfModel(req.params);
-		quantidade_de_requests++;
+	@httpPost('/:cpf')
+	public blockCpf(req: Request, res: Response) {
+		return this.cpfServices.blockCpf(req, res);
+	}
 
-		if (isValid(cpfToLock.cpf) === false) {
-			res.status(200).send({ message: 'O CPF informado não é valido.' });
-			return;
-		}
-		const verifier = await cpfModel
-			.find({ cpf: cpfToLock.cpf })
-			.estimatedDocumentCount();
+	@httpDelete('/:cpf')
+	public unblockCpf(req: Request, res: Response) {
+		return this.cpfServices.unblockCpf(req, res);
+	}
 
-		if (verifier) {
-			res.send({ message: 'O CPF informado JÁ esta bloqueado.' });
-			return;
-		} else {
-			cpfToLock.save(() => {
-				res.send({ message: 'O CPF foi bloqueado com sucesso.' });
-				return;
-			});
-		}
-	};
-	static unblockCpf = async (req: Request, res: Response) => {
-		const cpfToUnlock = new cpfModel(req.params);
-		quantidade_de_requests++;
+	@httpGet('/:cpf')
+	public cpfIsBlocked(req: Request, res: Response) {
+		return this.cpfServices.cpfIsBlocked(req, res);
+	}
 
-		if (isValid(cpfToUnlock) === false) {
-			res.status(200).send({ message: 'O CPF informado NÃO é valido!' });
-			return;
-		}
-		const verifier = await cpfModel
-			.find({ cpf: cpfToUnlock.cpf })
-			.estimatedDocumentCount();
-
-		if (!verifier) {
-			res.status(200).send({
-				message: 'O CPF informado NÃO esta bloqueado!',
-			});
-		} else {
-			cpfModel.findOneAndDelete({ cpfs: { cpf: cpfToUnlock } }, () => {
-				res.send({
-					message: 'O CPF informado FOI removido da lista',
-				});
-				return;
-			});
-		}
-	};
-	static cpfIsBlocked = async (req: Request, res: Response) => {
-		const cpfToFind = new cpfModel(req.params);
-		quantidade_de_requests++;
-
-		if (isValid(cpfToFind) === false) {
-			res.status(200).send({ message: 'O CPF informado NÃO é valido.' });
-			return;
-		}
-		const verifier = await cpfModel
-			.find({ cpf: cpfToFind.cpf })
-			.estimatedDocumentCount();
-
-		if (!verifier) {
-			res.status(200).send({ message: 'O CPF NÃO esta bloqueado.' });
-			return;
-		} else {
-			res.status(200).send({ message: 'O CPF esta bloqueado' });
-			return;
-		}
-	};
-
-	static serverStatus = async (req: Request, res: Response) => {
-		quantidade_de_requests++;
-		const tempo_online: number = process.uptime();
-		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();
-		res.status(200).send({
-			quantidade_de_requests,
-			tempo_online,
-			quantidade_de_docs,
-		});
-	};
+	@httpGet('/status')
+	public serverStatus(res: Response) {
+		return this.cpfServices.serverStatus(res);
+	}
 }
-
-export default CpfController;

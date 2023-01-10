@@ -1,8 +1,12 @@
 {
 	"compilerOptions": {
+		"experimentalDecorators": true,
+		"emitDecoratorMetadata": true,
 		"baseUrl": ".",
 		"strict": true,
 		"target": "ES6",
+		"lib": ["es6", "dom"],
+		"types": ["reflect-metadata"],
 		"rootDir": "src",
 		"outDir": "./bin",
 		"skipLibCheck": true,
@@ -11,6 +15,6 @@
 		"module": "CommonJS",
 		"sourceMap": true,
 	},
-	"include": ["src"],
+	"include": ["src/**/*.ts"],
 	"exclude": ["node_modules"]
 }

@@ -1,5 +1,5 @@
-import { cpfInterface } from '../models/Cpf';
-function isValid(cpf: number | cpfInterface) {
+import { ICpf } from 'src/interfaces/cpf.interface';
+function isValid(cpf: number | ICpf) {
 	let sum = 0;
 	let rest: number;
 

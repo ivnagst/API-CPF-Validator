@@ -2,6 +2,7 @@ import { injectable } from 'inversify';
 import cpfModel from '../models/Cpf';
 import isValid from '../controllers/cpfValidator';
 import { Request, Response } from 'express';
+import { promisify } from 'util';
 
 let quantidade_de_requests = 0;
 
@@ -23,10 +24,9 @@ export class CpfServices {
 			res.status(200).send({ message: 'O CPF informado JÁ esta bloqueado.' });
 			return;
 		} else {
-			cpfToLock.save(() => {
-				res.status(200).send({ message: 'O CPF foi bloqueado com sucesso.' });
-				return;
-			});
+			await promisify(cpfToLock.save.bind(cpfToLock))();
+			res.status(200).send({ message: 'O CPF foi bloqueado com sucesso.' });
+			return;
 		}
 	};
 	public unblockCpf = async (req: Request, res: Response) => {
@@ -46,11 +46,9 @@ export class CpfServices {
 				message: 'O CPF informado NÃO esta bloqueado!',
 			});
 		} else {
-			cpfModel.findOneAndDelete({ cpfs: { cpf: cpfToUnlock } }, () => {
-				res.status(200).send({
-					message: 'O CPF informado FOI removido da lista',
-				});
-				return;
+			await cpfModel.findOneAndDelete({ cpfs: { cpf: cpfToUnlock } }).exec();
+			res.status(200).send({
+				message: 'O CPF informado FOI removido da lista',
 			});
 		}
 	};
@@ -74,7 +72,7 @@ export class CpfServices {
 			return;
 		}
 	};
-	public serverStatus = async (res: Response) => {
+	public serverStatus = async (req: Request, res: Response) => {
 		quantidade_de_requests++;
 		const tempo_online: number = process.uptime();
 		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();

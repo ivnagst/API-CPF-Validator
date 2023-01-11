@@ -30,7 +30,7 @@ export class CpfController {
 	}
 
 	@httpGet('/status')
-	private serverStatus(res: Response) {
-		return this.cpfServices.serverStatus(res);
+	private serverStatus(req: Request, res: Response) {
+		return this.cpfServices.serverStatus(req, res);
 	}
 }

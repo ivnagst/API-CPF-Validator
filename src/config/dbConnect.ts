@@ -1,6 +1,6 @@
 import mongoose from 'mongoose';
 
-mongoose.connect(
+void mongoose.connect(
 	'mongodb+srv://root:123123123@cluster0.kssgfqn.mongodb.net/cpfValidator',
 );
 

@@ -72,9 +72,9 @@ export class CpfServices {
 			return;
 		}
 	};
-	public serverStatus = async (req: Request, res: Response) => {
+	public serverStatus = async (res: Response) => {
 		quantidade_de_requests++;
-		const tempo_online: number = process.uptime();
+		const tempo_online = process.uptime();
 		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();
 		res.status(200).send({
 			quantidade_de_requests,

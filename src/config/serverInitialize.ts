@@ -4,10 +4,7 @@ import TYPES from '../ioc/ioc-types';
 import { CpfServices } from '../services/cpfServices';
 
 const container = new Container({});
-container
-	.bind<CpfServices>(TYPES.CpfServices)
-	.to(CpfServices)
-	.inSingletonScope();
+container.bind<CpfServices>(TYPES.CpfServices).to(CpfServices);
 
 class Server {
 	initialize() {
@@ -20,7 +17,6 @@ class Server {
 		} catch (err) {
 			console.error(err);
 		}
-		return this.initialize;
 	}
 }
 export default Server;

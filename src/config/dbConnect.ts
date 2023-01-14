@@ -1,22 +1,9 @@
 import mongoose from 'mongoose';
-import config from 'config';
 
-class DBConnection {
-	private dbUri: string;
-	constructor() {
-		this.dbUri = config.get<string>('dbUri');
-	}
+void mongoose.connect(
+	'mongodb+srv://root:123123123@cluster0.kssgfqn.mongodb.net/cpfValidator',
+);
 
-	public async connect(): Promise<mongoose.Connection> {
-		try {
-			await mongoose.connect(this.dbUri);
-			console.log('Conexão com o banco de dados realizada com sucesso xD');
-			return mongoose.connection;
-		} catch (err) {
-			console.log('Erro ao se conectar ao BD', err);
-			process.exit(1);
-		}
-	}
-}
+const db = mongoose.connection;
 
-export default DBConnection;
+export default db;

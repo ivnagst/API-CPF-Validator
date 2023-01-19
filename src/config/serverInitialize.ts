@@ -1,14 +1,21 @@
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { Container } from 'inversify';
-import TYPES from '../ioc/ioc-types';
-import { CpfServices } from '../services/cpfServices';
+import DBConnection from './dbConnect';
 
-const container = new Container({});
-container.bind<CpfServices>(TYPES.CpfServices).to(CpfServices);
-
+// const container = new Container({});
 class Server {
-	initialize() {
-		const server = new InversifyExpressServer(container);
+	private container: Container | undefined;
+
+	async initialize() {
+		this.container = new Container({
+			defaultScope: 'Singleton',
+			autoBindInjectable: true,
+		});
+		this.container.bind('DBConnection').to(DBConnection).inSingletonScope;
+		const db: DBConnection = this.container.get('DBConnection');
+		await db.connect();
+		const server = new InversifyExpressServer(this.container);
+		// console.log(server);
 		const serverInstance = server.build();
 		try {
 			serverInstance.listen(3030, () => {
@@ -19,4 +26,5 @@ class Server {
 		}
 	}
 }
+
 export default Server;

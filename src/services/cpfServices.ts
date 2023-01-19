@@ -7,7 +7,7 @@ import { promisify } from 'util';
 let quantidade_de_requests = 0;
 
 @injectable()
-export class CpfServices {
+class CpfServices {
 	public blockCpf = async (req: Request, res: Response) => {
 		const cpfToLock = new cpfModel(req.params);
 		quantidade_de_requests++;
@@ -83,3 +83,5 @@ export class CpfServices {
 		});
 	};
 }
+
+export default CpfServices;

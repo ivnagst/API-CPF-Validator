@@ -1,4 +1,4 @@
-import { ICpf } from 'src/interfaces/cpf.interface';
+import { ICpf } from 'src/interfaces/cpfInterface';
 function isValid(cpf: number | ICpf) {
 	let sum = 0;
 	let rest: number;

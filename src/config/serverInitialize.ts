@@ -1,21 +1,21 @@
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { Container } from 'inversify';
 import DBConnection from './dbConnect';
+import myContainer from '../ioc/ioc-bind';
 
-// const container = new Container({});
 class Server {
-	private container: Container | undefined;
+	public container: Container;
 
-	async initialize() {
-		this.container = new Container({
-			defaultScope: 'Singleton',
-			autoBindInjectable: true,
-		});
-		this.container.bind('DBConnection').to(DBConnection).inSingletonScope;
+	constructor() {
+		this.container = new Container({});
+		this.container.load(myContainer());
+	}
+	public async initializeDb() {
 		const db: DBConnection = this.container.get('DBConnection');
 		await db.connect();
+	}
+	public initializeServer() {
 		const server = new InversifyExpressServer(this.container);
-		// console.log(server);
 		const serverInstance = server.build();
 		try {
 			serverInstance.listen(3030, () => {

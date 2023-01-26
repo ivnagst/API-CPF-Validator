@@ -7,10 +7,9 @@ import TYPES from './ioc-types';
 
 function myContainer() {
 	return new ContainerModule((bind) => {
-		bind<CpfServices>(TYPES.CpfServices).to(CpfServices).inSingletonScope;
+		bind(TYPES.CpfServices).to(CpfServices).inSingletonScope;
 		bind('DBConnection').to(DBConnection).inSingletonScope;
 		bind('Server').to(Server).inSingletonScope;
-
 	});
 }
 

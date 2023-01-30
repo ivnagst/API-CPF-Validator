@@ -8,10 +8,10 @@ import { Configuration } from '../config/configFactory';
 
 function myContainer() {
 	return new ContainerModule((bind) => {
-		bind(TYPES.CpfServices).to(CpfServices).inSingletonScope;
-		bind(TYPES.Configuration).to(Configuration).inSingletonScope;
-		bind('DBConnection').to(DBConnection).inSingletonScope;
-		bind('Server').to(Server).inSingletonScope;
+		bind(TYPES.CpfServices).to(CpfServices).inSingletonScope();
+		bind(Configuration).to(Configuration).inSingletonScope();
+		bind('DBConnection').to(DBConnection).inSingletonScope();
+		bind(Server).toSelf().inSingletonScope();
 	});
 }
 

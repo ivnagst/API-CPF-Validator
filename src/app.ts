@@ -1,7 +1,13 @@
 import './controllers/cpfsController';
 import Server from './config/serverInitialize';
-// import ConfigFactory from './config/configFactory';
+import myContainer from './ioc/ioc-bind';
+import { Container } from 'inversify';
 
-const server = new Server();
+export function startServer() {
+	const container = new Container({});
+	container.load(myContainer());
 
-void server.initializeServer();
+	const server = container.get(Server);
+
+	void server.initializeServer();
+}

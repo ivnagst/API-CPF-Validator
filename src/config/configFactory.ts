@@ -9,14 +9,13 @@ interface Config {
 export class Configuration {
 	private readonly config: Config;
 
-	constructor(overrides?: Partial<Config>) {
+	constructor() {
 		const defaultConfig: Config = {
-			DB_URI:
-				'mongodb+srv://root:123123123@cluster0.kssgfqn.mongodb.net/cpfValidator',
-			PORT: 3030,
+			DB_URI: process.env.DB_URI!,
+			PORT: parseInt(process.env.PORT!),
 		};
 
-		this.config = { ...defaultConfig, ...overrides };
+		this.config = { ...defaultConfig };
 	}
 
 	getConfig(): Config {

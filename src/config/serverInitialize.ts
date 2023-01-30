@@ -1,21 +1,20 @@
 import { InversifyExpressServer } from 'inversify-express-utils';
-import { Container, inject } from 'inversify';
+import { Container, injectable } from 'inversify';
 import DBConnection from './dbConnect';
 import myContainer from '../ioc/ioc-bind';
-// import config from 'config';
 import { Configuration } from '../config/configFactory';
 
+@injectable()
 class Server {
 	public container: Container;
+	private configuration: Configuration;
 	private PORT: number;
 
-	constructor(
-		@inject(Configuration) private readonly configuration: Configuration,
-	) {
+	constructor() {
 		this.container = new Container({});
 		this.container.load(myContainer());
+		this.configuration = this.container.get(Configuration);
 		this.PORT = this.configuration.getConfig().PORT;
-		// this.configuration = this.container.get(Configuration);
 	}
 	public async initializeServer() {
 		const server = new InversifyExpressServer(this.container);

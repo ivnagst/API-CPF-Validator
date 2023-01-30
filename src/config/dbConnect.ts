@@ -10,7 +10,6 @@ export default class DBConnection {
 
 	constructor(@inject(Configuration) private readonly config: Configuration) {
 		this.DB_URI = this.config.getConfig().DB_URI;
-		// this.DB_URI = config.get<string>('DB_URI');
 	}
 
 	public async connect(): Promise<mongoose.Connection> {

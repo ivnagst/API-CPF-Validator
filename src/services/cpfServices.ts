@@ -1,27 +1,16 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import cpfModel from '../models/Cpf';
 import isValid from '../controllers/cpfValidator';
 import { Request, Response } from 'express';
 import { promisify } from 'util';
+import RequestCounter from './requestCounter';
 
-class RequestCounter {
-	private count = 0;
-
-	public increment(): void {
-		this.count++;
-	}
-
-	public getCount(): number {
-		return this.count;
-	}
-}
-
-const requestCounter = new RequestCounter();
 @injectable()
 class CpfServices {
+	constructor(@inject(RequestCounter) private requestCounter: RequestCounter) {}
 	public blockCpf = async (req: Request, res: Response) => {
 		const cpfToLock = new cpfModel(req.params);
-		requestCounter.increment();
+		this.requestCounter.increment();
 
 		if (isValid(cpfToLock.cpf) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido.' });
@@ -42,7 +31,7 @@ class CpfServices {
 	};
 	public unblockCpf = async (req: Request, res: Response) => {
 		const cpfToUnlock = new cpfModel(req.params);
-		requestCounter.increment();
+		this.requestCounter.increment();
 
 		if (isValid(cpfToUnlock) === false) {
 			res.status(200).send({ message: 'O CPF informado NÃO é valido!' });
@@ -65,7 +54,7 @@ class CpfServices {
 	};
 	public cpfIsBlocked = async (req: Request, res: Response) => {
 		const cpfToFind = new cpfModel(req.params);
-		requestCounter.increment();
+		this.requestCounter.increment();
 
 		if (isValid(cpfToFind) === false) {
 			res.status(200).send({ message: 'O CPF informado NÃO é valido.' });
@@ -84,10 +73,10 @@ class CpfServices {
 		}
 	};
 	public serverStatus = async (res: Response) => {
-		requestCounter.increment();
+		this.requestCounter.increment();
 		const tempo_online = process.uptime();
 		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();
-		const counter = requestCounter.getCount();
+		const counter = this.requestCounter.getCount();
 		res.status(200).send({
 			counter,
 			tempo_online,

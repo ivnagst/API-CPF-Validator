@@ -1,15 +1,13 @@
-import 'reflect-metadata';
 import './controllers/cpfsController';
-import DBConnection from './config/dbConnect';
 import Server from './config/serverInitialize';
+import myContainer from './ioc/ioc-bind';
+import { Container } from 'inversify';
 
-const db = new DBConnection();
+export function startServer() {
+	const container = new Container({});
+	container.load(myContainer());
 
-const server = new Server();
+	const server = container.get(Server);
 
-async function startServer() {
-	await db.connect();
-	server.initialize();
+	void server.initializeServer();
 }
-
-void startServer();

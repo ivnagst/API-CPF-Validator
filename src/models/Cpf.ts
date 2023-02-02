@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { ICpf } from 'src/interfaces/cpf.interface';
+import { ICpf } from 'src/interfaces/cpfInterface';
 
 const cpfSchema: Schema = new Schema({
 	id: { type: String },

@@ -1,16 +1,16 @@
-import { injectable } from 'inversify';
+import { injectable, inject } from 'inversify';
 import cpfModel from '../models/Cpf';
 import isValid from '../controllers/cpfValidator';
 import { Request, Response } from 'express';
 import { promisify } from 'util';
-
-let quantidade_de_requests = 0;
+import RequestCounter from './requestCounter';
 
 @injectable()
-export class CpfServices {
+class CpfServices {
+	constructor(@inject(RequestCounter) private requestCounter: RequestCounter) {}
 	public blockCpf = async (req: Request, res: Response) => {
 		const cpfToLock = new cpfModel(req.params);
-		quantidade_de_requests++;
+		this.requestCounter.increment();
 
 		if (isValid(cpfToLock.cpf) === false) {
 			res.status(200).send({ message: 'O CPF informado não é valido.' });
@@ -31,7 +31,7 @@ export class CpfServices {
 	};
 	public unblockCpf = async (req: Request, res: Response) => {
 		const cpfToUnlock = new cpfModel(req.params);
-		quantidade_de_requests++;
+		this.requestCounter.increment();
 
 		if (isValid(cpfToUnlock) === false) {
 			res.status(200).send({ message: 'O CPF informado NÃO é valido!' });
@@ -54,7 +54,7 @@ export class CpfServices {
 	};
 	public cpfIsBlocked = async (req: Request, res: Response) => {
 		const cpfToFind = new cpfModel(req.params);
-		quantidade_de_requests++;
+		this.requestCounter.increment();
 
 		if (isValid(cpfToFind) === false) {
 			res.status(200).send({ message: 'O CPF informado NÃO é valido.' });
@@ -73,13 +73,16 @@ export class CpfServices {
 		}
 	};
 	public serverStatus = async (res: Response) => {
-		quantidade_de_requests++;
+		this.requestCounter.increment();
 		const tempo_online = process.uptime();
 		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();
+		const counter = this.requestCounter.getCount();
 		res.status(200).send({
-			quantidade_de_requests,
+			counter,
 			tempo_online,
 			quantidade_de_docs,
 		});
 	};
 }
+
+export default CpfServices;

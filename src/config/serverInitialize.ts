@@ -1,18 +1,29 @@
 import { InversifyExpressServer } from 'inversify-express-utils';
-import { Container } from 'inversify';
-import TYPES from '../ioc/ioc-types';
-import { CpfServices } from '../services/cpfServices';
+import { Container, injectable } from 'inversify';
+import DBConnection from './dbConnect';
+import myContainer from '../ioc/ioc-bind';
+import { Configuration } from '../config/configFactory';
 
-const container = new Container({});
-container.bind<CpfServices>(TYPES.CpfServices).to(CpfServices);
-
+@injectable()
 class Server {
-	initialize() {
-		const server = new InversifyExpressServer(container);
+	public container: Container;
+	private configuration: Configuration;
+	private PORT: number;
+
+	constructor() {
+		this.container = new Container({});
+		this.container.load(myContainer());
+		this.configuration = this.container.get(Configuration);
+		this.PORT = this.configuration.getConfig().PORT;
+	}
+	public async initializeServer() {
+		const server = new InversifyExpressServer(this.container);
 		const serverInstance = server.build();
+		const db: DBConnection = this.container.get('DBConnection');
+		await db.connect();
 		try {
-			serverInstance.listen(3030, () => {
-				console.log('Server listening on port 3030');
+			serverInstance.listen(this.PORT, () => {
+				console.log(`Servidor sendo escutado na porta ${this.PORT}`);
 			});
 		} catch (err) {
 			console.error(err);

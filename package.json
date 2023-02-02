@@ -2,7 +2,7 @@
 	"name": "api-cpf-validator",
 	"version": "1.0.0",
 	"description": "Will be similar to the first test",
-	"main": "src/index.ts",
+	"main": "bin/index.js",
 	"scripts": {
 		"dev": "nodemon ./src/index.ts",
 		"prepare": "husky install",

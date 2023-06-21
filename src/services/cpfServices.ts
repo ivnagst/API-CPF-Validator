@@ -1,5 +1,5 @@
 import { injectable, inject } from 'inversify';
-import cpfModel from '../models/Cpf';
+import cpfModel from '../infrastructure/cpfModel';
 import isValid from '../controllers/cpfValidator';
 import { Request, Response } from 'express';
 import { promisify } from 'util';

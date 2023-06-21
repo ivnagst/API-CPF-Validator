@@ -11,7 +11,9 @@ export class Configuration {
 
 	constructor() {
 		const defaultConfig: Config = {
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			DB_URI: process.env.DB_URI!,
+			// eslint-disable-next-line @typescript-eslint/no-non-null-assertion
 			PORT: parseInt(process.env.PORT!),
 		};
 

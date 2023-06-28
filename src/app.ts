@@ -1,5 +1,5 @@
-import './controllers/cpfsController';
-import Server from './config/serverInitialize';
+import './controllers/cpfs-controller';
+import Server from './config/server-initialize';
 import myContainer from './ioc/ioc-bind';
 import { Container } from 'inversify';
 

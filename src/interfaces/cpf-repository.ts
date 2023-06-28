@@ -1,4 +1,4 @@
-import { Cpf } from '../domain/Cpf';
+import { Cpf } from '../domain/cpf';
 
 export interface CpfRepository {
 	getAllCpfs(): Promise<Cpf[]>;

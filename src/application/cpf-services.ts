@@ -1,5 +1,5 @@
-import { Cpf } from '../domain/Cpf';
-import { CpfRepository } from '../interfaces/cpfRepository';
+import { Cpf } from '../domain/cpf';
+import { CpfRepository } from '../interfaces/cpf-repository';
 
 export class CpfServices {
 	constructor(private readonly cpfRepository: CpfRepository) {}
@@ -7,15 +7,12 @@ export class CpfServices {
 	async getAllCpfs(): Promise<Cpf[]> {
 		return this.cpfRepository.getAllCpfs();
 	}
-
 	async addCpf(cpf: Cpf): Promise<void> {
 		await this.cpfRepository.addCpf(cpf);
 	}
-
-	async deleteCpf(cpfNumber: string): Promise<void> {
-		await this.cpfRepository.deleteCpf(cpfNumber);
+	async deleteCpf(cpf: string): Promise<void> {
+		await this.cpfRepository.deleteCpf(cpf);
 	}
-
 	async getCpfCount(): Promise<number> {
 		return this.cpfRepository.getCpfCount();
 	}

@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
-import { Cpf } from '../domain/Cpf';
-import { CpfServices } from '../application/cpfServices';
-import { RequestCounter } from '../infrastructure/requestCounter';
+import { Cpf } from '../domain/cpf';
+import { CpfServices } from '../application/cpf-services';
+import { RequestCounter } from '../infrastructure/request-counter';
 import { controller, httpGet, httpPost } from 'inversify-express-utils';
 
 @controller('/cpf')

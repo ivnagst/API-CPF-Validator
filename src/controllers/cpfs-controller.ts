@@ -8,7 +8,7 @@ import {
 import { inject } from 'inversify';
 import { Request, Response } from 'express';
 import TYPES from '../ioc/ioc-types';
-import CpfServices from '../services/cpfServices';
+import CpfServices from '../services/cpf-services';
 
 @controller('/deny-list')
 export class CpfController {

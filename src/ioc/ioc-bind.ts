@@ -1,10 +1,10 @@
 import 'reflect-metadata';
 import { ContainerModule } from 'inversify';
-import Server from '../config/serverInitialize';
-import DBConnection from '../config/dbConnect';
-import CpfServices from '../services/cpfServices';
+import Server from '../config/server-initialize';
+import DBConnection from '../config/db-connect';
+import CpfServices from '../services/cpf-services';
 import TYPES from './ioc-types';
-import { Configuration } from '../config/configFactory';
+import { Configuration } from '../config/config-factory';
 import RequestCounter from '../services/requestCounter';
 
 function myContainer() {

@@ -1,8 +1,7 @@
 import mongoose from 'mongoose';
-// import config from 'config';
 import { injectable, inject } from 'inversify';
 mongoose.set('strictQuery', true);
-import { Configuration } from './configFactory';
+import { Configuration } from '../config/configuration';
 
 @injectable()
 export default class DBConnection {

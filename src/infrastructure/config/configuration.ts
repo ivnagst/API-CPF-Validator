@@ -1,4 +1,5 @@
 import { injectable } from 'inversify';
+import { get } from 'lodash';
 
 interface Config {
 	DB_URI: string;
@@ -11,8 +12,8 @@ export class Configuration {
 
 	constructor() {
 		const defaultConfig: Config = {
-			DB_URI: process.env.DB_URI!,
-			PORT: parseInt(process.env.PORT!),
+			DB_URI: get(process.env, 'DB_URI', 'default_db_uri'),
+			PORT: parseInt(get(process.env, 'PORT', 'default_port')),
 		};
 
 		this.config = { ...defaultConfig };

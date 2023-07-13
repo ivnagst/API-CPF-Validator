@@ -1,8 +1,8 @@
 import { InversifyExpressServer } from 'inversify-express-utils';
 import { Container, injectable } from 'inversify';
-import DBConnection from './dbConnect';
-import myContainer from '../ioc/ioc-bind';
-import { Configuration } from '../config/configFactory';
+import DBConnection from '../../infrastructure/database/db-connection';
+import { Configuration } from '../../infrastructure/config/configuration';
+import myContainer from '../../ioc/my-container';
 
 @injectable()
 class Server {

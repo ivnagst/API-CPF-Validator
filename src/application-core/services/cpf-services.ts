@@ -1,9 +1,9 @@
 import { injectable, inject } from 'inversify';
-import cpfModel from '../models/Cpf';
-import isValid from '../controllers/cpfValidator';
+import cpfModel from '../../infrastructure/repositories/cpf';
+import isValid from '../../utils/cpf-validator';
 import { Request, Response } from 'express';
 import { promisify } from 'util';
-import RequestCounter from './requestCounter';
+import RequestCounter from '../../infrastructure/request-counter';
 
 @injectable()
 class CpfServices {
@@ -72,7 +72,7 @@ class CpfServices {
 			return;
 		}
 	};
-	public serverStatus = async (res: Response) => {
+	public serverStatus = async (req: Request, res: Response) => {
 		this.requestCounter.increment();
 		const tempo_online = process.uptime();
 		const quantidade_de_docs = await cpfModel.estimatedDocumentCount();

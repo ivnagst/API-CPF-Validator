@@ -1,11 +1,11 @@
 import 'reflect-metadata';
 import { ContainerModule } from 'inversify';
-import Server from '../config/serverInitialize';
-import DBConnection from '../config/dbConnect';
-import CpfServices from '../services/cpfServices';
+import Server from '../user-interface/server/server';
+import { Configuration } from '../infrastructure/config/configuration';
+import DBConnection from '../infrastructure/database/db-connection';
 import TYPES from './ioc-types';
-import { Configuration } from '../config/configFactory';
-import RequestCounter from '../services/requestCounter';
+import CpfServices from '../application-core/services/cpf-services';
+import RequestCounter from '../infrastructure/request-counter';
 
 function myContainer() {
 	return new ContainerModule((bind) => {
